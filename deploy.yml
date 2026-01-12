@@ -1,0 +1,25 @@
+name: CI/CD SSH Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Test SSH Connection
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.IP_SERVER }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          whoami
+          hostname
+          echo "CI/CD SSH BERHASIL"
